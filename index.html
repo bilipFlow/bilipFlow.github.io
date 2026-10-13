@@ -1,1 +1,131 @@
-<h1>Coming soon</h1>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BiLip: Bi-Lipschitz-Regularized Pretraining</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --bg: #ffffff; --text: #1f1f1f; --muted: #5f6368; --panel: #f6f6f7;
+    --border: #e2e2e5; --bilip: #d9437a; --vanilla: #6b6b6b; --vanilla-soft: #ececec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141416; --text: #e9e9ec; --muted: #a3a3aa; --panel: #1d1d21;
+      --border: #2e2e34; --bilip: #ef6a9a; --vanilla: #b0b0b0; --vanilla-soft: #2a2a2e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 16px 64px; }
+  .narrow { max-width: 780px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 40px; }
+  h1 { font-size: clamp(1.6rem, 3.6vw, 2.4rem); line-height: 1.25; margin: 0 0 16px; font-weight: 600; }
+  .authors { color: var(--muted); font-size: 1.05rem; }
+  .venue { color: var(--muted); font-style: italic; font-size: 0.95rem; margin-top: 2px; }
+  .sc { font-variant: small-caps; letter-spacing: 0.02em; }
+  .ours { color: var(--bilip); font-weight: 600; }
+  h2 { font-size: 1.45rem; margin: 48px 0 12px; font-weight: 600; text-align: center; }
+  .abstract {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px 24px; text-align: justify; hyphens: auto;
+  }
+  p.lead { text-align: center; color: var(--muted); margin: 0 auto 28px; max-width: 760px; }
+  .grid { display: grid; grid-template-columns: 110px 1fr 1fr 1fr; gap: 14px; align-items: center; }
+  .colhead { text-align: center; font-weight: 600; position: relative; }
+  .colhead small { display: block; font-weight: 400; color: var(--muted); font-size: 0.85rem; }
+  .colhead.arrow::after {
+    content: "\2192"; position: absolute; right: -14px; top: 50%;
+    transform: translate(50%, -50%); color: var(--muted); font-size: 1.3rem;
+  }
+  .rowhead { font-weight: 600; text-align: right; padding-right: 4px; line-height: 1.3; }
+  .rowhead.vanilla { color: var(--vanilla); }
+  .rowhead.bilip { color: var(--bilip); }
+  .rowhead small { display: block; font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+  .cell { border-radius: 8px; overflow: hidden; border: 2px solid var(--vanilla-soft); background: #000; }
+  .cell.bilip { border-color: var(--bilip); }
+  .cell video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
+  .mlabel { display: none; }
+  .note { color: var(--muted); font-size: 0.9rem; text-align: center; margin-top: 18px; }
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 56px; }
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; gap: 8px; }
+    .colhead, .corner { display: none; }
+    .rowhead { text-align: left; font-size: 1.15rem; margin-top: 20px; }
+    .mlabel { display: block; font-size: 0.9rem; color: var(--muted); padding: 6px 2px 0; background: var(--bg); }
+    .cell { background: var(--bg); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Bi-Lipschitz-Regularized Pretraining<br>for Efficient Policy Finetuning</h1>
+    <div class="authors">Anonymous authors</div>
+    <div class="venue">Paper under double-blind review</div>
+  </header>
+
+  <section class="narrow">
+    <h2>Abstract</h2>
+    <div class="abstract">
+      Generative control policies (GCPs) based on diffusion and flow matching have achieved strong
+      performance by modeling multimodal action distributions through supervised learning. However,
+      adapting these policies to new tasks, preferences, or constraints often requires further
+      optimization through the pretrained generative model. We show that standard flow-matching
+      objectives, while effective at learning action distributions, can produce poorly conditioned
+      mappings from latent noise to actions that hinder downstream optimization. In particular,
+      excessive expansion amplifies small perturbations, while severe contraction makes flow inversion
+      ill-conditioned and can attenuate gradients. To address these issues, we introduce
+      <span class="sc">BiLip</span>, a Jacobian-based bi-Lipschitz regularizer that controls the local
+      expansion and contraction of the learned flow during pretraining. Our theoretical analysis
+      characterizes how these geometric properties affect perturbation and error amplification through
+      the flow. We demonstrate that <span class="sc">BiLip</span> improves three downstream post-training
+      methods: reinforcement learning in the latent noise space, supervised finetuning through flow
+      inversion, and test-time gradient-based guidance using backpropagation through time (BPTT).
+      Across simulated benchmarks and challenging real-world bimanual manipulation tasks, our approach
+      substantially improves post-training performance and learning efficiency. Our results establish
+      that the geometry learned during generative pretraining is a critical factor in downstream
+      optimization, and that regularizing this geometry during pretraining provides benefits across
+      multiple post-training algorithms without modifying the algorithms themselves.
+    </div>
+  </section>
+
+  <section>
+    <h2>Real-World DSRL: Plate Insertion</h2>
+    <p class="lead">
+      On a bimanual YAM platform, the robot must pick up a plate by tipping it with one gripper and then
+      insert it into a dish rack. Both base policies start at zero success. We freeze each base policy and
+      run DSRL with an RLPD-style buffer, using the same human intervention protocol for both pretraining
+      methods. Within fewer than 100 real-world episodes, <span class="ours sc">BiLip</span> reaches strong
+      task performance and converges faster than <span class="sc">Vanilla CFM</span>.
+    </p>
+
+    <div class="grid">
+      <div class="corner"></div>
+      <div class="colhead arrow">Before RL<small>Pretrained base policy</small></div>
+      <div class="colhead arrow">DSRL Training<small>Full session, sped up</small></div>
+      <div class="colhead">After RL<small>Post-trained policy</small></div>
+
+      <div class="rowhead vanilla"><span class="sc">Vanilla CFM</span><small>Baseline</small></div>
+      <div class="cell"><video src="videos/vanilla_before.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">Before RL</div></div>
+      <div class="cell"><video src="videos/vanilla_training.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">DSRL training (sped up)</div></div>
+      <div class="cell"><video src="videos/vanilla_after.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">After RL</div></div>
+
+      <div class="rowhead bilip"><span class="sc">BiLip</span><small>Ours</small></div>
+      <div class="cell bilip"><video src="videos/bilip_before.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">Before RL</div></div>
+      <div class="cell bilip"><video src="videos/bilip_training.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">DSRL training (sped up)</div></div>
+      <div class="cell bilip"><video src="videos/bilip_after.mp4" autoplay muted loop playsinline controls preload="metadata"></video><div class="mlabel">After RL</div></div>
+    </div>
+
+    <p class="note">Before and after videos show multiple trials running simultaneously from a top-down view.</p>
+  </section>
+
+  <footer>Anonymous submission. Do not distribute.</footer>
+</div>
+</body>
+</html>
